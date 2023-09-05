@@ -1,0 +1,142 @@
+openapi: 3.0.0
+x-stoplight:
+  id: qik0pfjkddz7o
+info:
+  title: Student Management API
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  '/student/{id}':
+    parameters:
+      - schema:
+          type: string
+        name: id
+        in: path
+        required: true
+    get:
+      summary: Get student info by ID
+      tags:
+        - Student
+      responses:
+        '200':
+          description: User Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+              examples:
+                Get User Alice Smith:
+                  value:
+                    id: 142
+                    firstName: Alice
+                    lastName: Smith
+                    email: alice.smith@gmail.com
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found
+        '500':
+          description: User Not Found
+      operationId: getStudentInfo
+      description: Retrieve the information of the student with the matching user ID.
+      x-stoplight:
+        id: 4lhkbg5qyn8r2
+  /student:
+    post:
+      summary: ''
+      operationId: createStudent
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      x-stoplight:
+        id: jr6r3qkmv6hoz
+      description: Create a new student with information
+      parameters: []
+      tags:
+        - Student
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Student'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Student'
+  /student/all:
+    get:
+      summary: Your GET endpoint
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+        '500':
+          description: Internal Server Error
+      operationId: getAllStudent
+      x-stoplight:
+        id: 5k8f5nc1nod8l
+  /student/by-email:
+    get:
+      summary: Get ID Student by email
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: integer
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      operationId: getStudentIdByEmail
+      x-stoplight:
+        id: 1ai3juac8u7vx
+      description: ''
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: email
+components:
+  schemas:
+    Student:
+      title: Student
+      type: object
+      x-stoplight:
+        id: ugh2vlu2om00i
+      x-internal: false
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the given user.
+          x-stoplight:
+            id: bx5inw223do7x
+        firstName:
+          type: string
+          x-stoplight:
+            id: 1iig7gge6olgo
+        lastName:
+          type: string
+          x-stoplight:
+            id: 2ubnyuumn4exj
+        email:
+          type: string
+          format: email
+          x-stoplight:
+            id: 9ztm5vbs84lqr

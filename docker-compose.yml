@@ -1,0 +1,30 @@
+version: '3'
+services:
+  mysqldb:
+    image: mysql:8.0.32-debian
+    container_name: mysqldb
+    environment:
+      MYSQL_ROOT_PASSWORD: 'mypassword'
+      MYSQL_DATABASE: 'mydatabase'
+    ports:
+      - "3306:3306"
+  spring-app:
+    image: student-management:latest # Nombre de la imagen de tu aplicación Spring Boot
+    container_name: spring-app
+    ports:
+      - "8080:8080" # Mapea el puerto de la aplicación Spring Boot
+    depends_on:
+      - mysqldb
+    environment:
+      SPRING_APPLICATION_JSON: '{
+              "spring.datasource.url"  : "jdbc:mysql://localhost:3306/mydatabase?useSSL=false",
+              "spring.datasource.username" : "root",
+              "spring.datasource.password" : "mypassword",
+              "spring.datasource.driver-class-name":"com.mysql.cj.jdbc.Driver",
+              "spring.jpa.hibernate.ddl-auto" : "update"
+            }'
+#      SPRING_DATASOURCE_URL: 'jdbc:mysql://mysqldb:3306/mydatabase' # Cambia 'yourdatabase'
+#      SPRING_DATASOURCE_USERNAME: 'root'
+#      SPRING_DATASOURCE_PASSWORD: 'mypassword'
+#      SPRING_DATASOURCE_DRIVER_CLASS_NAME: 'com.mysql.cj.jdbc.Driver'
+#      SPRING_JPA_HIBERNATE_DDL_AUTO: 'update'
